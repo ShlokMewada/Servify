@@ -1,0 +1,57 @@
+# Ignore the virtual environment directory
+venv/
+ venv
+ .env
+# Python specific ignores
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.env
+*.venv
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Django specific ignores
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# Ignore migrations
+**/migrations/*
+**/migrations/__pycache__/
+!**/migrations/*.py
+
+# Ignore IDE/editor specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore environment variables
+.env
+
+# Ignore coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Ignore static files
+static/

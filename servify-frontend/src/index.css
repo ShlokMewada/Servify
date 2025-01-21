@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Poppins",  sans-serif;
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  .scrollbar-webkit {
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  }
+
+  @keyframes loading-bar {
+    0% {
+      width: 0px;
+    }
+    100% {
+      width: inherit;
+    }
+  }
+
+  .animate-loading-bar {
+    animation: loading-bar 3s linear infinite;
+  }
+}
+
+.slider-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.slick-track {
+  display: flex !important;
+  align-items: flex-start;
+}
+
+.slick-slide {
+  float: left !important;
+  width: auto !important;
+  display: flex;
+  justify-content: center;
+}
+
+.slick-slide > div {
+  margin: 0 10px;
+}
+
+.slick-list {
+  padding: 20px;
+}
+
+.slick-arrow:before {
+  color: black;
+  font-size: 30px;
+}
+
+.image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
