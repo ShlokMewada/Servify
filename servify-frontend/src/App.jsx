@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "./components/Home";
 import Cart from "./components/Cart";
 import Login from "./components/Login";
@@ -27,6 +27,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy";
 import TermsAndConditions from "./components/TermsAndConditions";
 import OrderHistory from "./components/OrderHistory";
 import EmployeeProfile from "./components/EmployeeProfile";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -41,112 +42,122 @@ const App = () => {
 
   const appRouter = createBrowserRouter([
     {
-      path: "/",
-      element: <User />,
+      element: (
+        <>
+          <ScrollToTop />
+          <Outlet />
+        </>
+      ),
       children: [
         {
           path: "/",
-          element: <Home />,
-        },
-        {
-          element: <AuthenticatedRoute />,
+          element: <User />,
           children: [
             {
-              path: "/login",
-              element: <Login isEmployee={false} />,
+              path: "/",
+              element: <Home />,
             },
             {
-              path: "/signup",
-              element: <Signup isEmployee={false} />,
-            },
-          ],
-        },
-        {
-          path: "/servicedetails",
-          element: <ServiceDetails />,
-        },
-        {
-          path: "/categorydetails",
-          element: <CategoryDetails />,
-        },
-        {
-          element: <UserProtectedRoute />,
-          children: [
-            {
-              path: "/cart",
-              element: <Cart />,
-            },
-            {
-              path: "/userprofile",
-              element: <UserProfile />,
-            },
-            {
-              path: "/orderhistory",
-              element: <OrderHistory />,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      path: "/employee",
-      children: [
-        {
-          element: <AuthenticatedRoute />,
-          children: [
-            {
-              path: "login",
-              element: <Login isEmployee={true} />,
-            },
-            {
-              path: "signup",
-              element: <Signup isEmployee={true} />,
-            },
-          ],
-        },
-        {
-          element: <EmployeeProtectedRoute />,
-          children: [
-            {
-              element: <Employee />,
+              element: <AuthenticatedRoute />,
               children: [
                 {
-                  path: "/employee/dashboard",
-                  element: <EmployeeDashboard />,
+                  path: "/login",
+                  element: <Login isEmployee={false} />,
                 },
                 {
-                  path: "/employee/profile",
-                  element: <EmployeeProfile />,
+                  path: "/signup",
+                  element: <Signup isEmployee={false} />,
+                },
+              ],
+            },
+            {
+              path: "/servicedetails",
+              element: <ServiceDetails />,
+            },
+            {
+              path: "/categorydetails",
+              element: <CategoryDetails />,
+            },
+            {
+              element: <UserProtectedRoute />,
+              children: [
+                {
+                  path: "/cart",
+                  element: <Cart />,
+                },
+                {
+                  path: "/userprofile",
+                  element: <UserProfile />,
+                },
+                {
+                  path: "/orderhistory",
+                  element: <OrderHistory />,
                 },
               ],
             },
           ],
         },
+        {
+          path: "/employee",
+          children: [
+            {
+              element: <AuthenticatedRoute />,
+              children: [
+                {
+                  path: "login",
+                  element: <Login isEmployee={true} />,
+                },
+                {
+                  path: "signup",
+                  element: <Signup isEmployee={true} />,
+                },
+              ],
+            },
+            {
+              element: <EmployeeProtectedRoute />,
+              children: [
+                {
+                  element: <Employee />,
+                  children: [
+                    {
+                      path: "/employee/dashboard",
+                      element: <EmployeeDashboard />,
+                    },
+                    {
+                      path: "/employee/profile",
+                      element: <EmployeeProfile />,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          path: "/unauthorized",
+          element: <Unauthorized />,
+        },
+        {
+          path: "*",
+          element: <PageNotFound />,
+        },
+        {
+          path: "/privacypolicy",
+          element: <PrivacyPolicy />,
+        },
+        {
+          path: "/terms&conditions",
+          element: <TermsAndConditions />,
+        },
+        {
+          path: "/about",
+          element: <About />,
+        },
+        {
+          path: "/contact",
+          element: <Contact />,
+        },
       ],
-    },
-    {
-      path: "/unauthorized",
-      element: <Unauthorized />,
-    },
-    {
-      path: "*",
-      element: <PageNotFound />,
-    },
-    {
-      path: "/privacypolicy",
-      element: <PrivacyPolicy />,
-    },
-    {
-      path: "/terms&conditions",
-      element: <TermsAndConditions />,
-    },
-    {
-      path: "/about",
-      element: <About />,
-    },
-    {
-      path: "/contact",
-      element: <Contact />,
     },
   ]);
 
