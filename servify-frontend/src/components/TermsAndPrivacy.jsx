@@ -4,7 +4,7 @@ import Header from "./Header";
 import EmployeeHeader from "./EmployeeHeader";
 
 const PrivacyPolicy = () => {
-  const user = useSelector((store) => store.user.user);
+  const user = useSelector((store) => store?.user?.user);
   return (
     <div className="py-36">
       <div className="fixed top-0 left-0 right-0 z-10">

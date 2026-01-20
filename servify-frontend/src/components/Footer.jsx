@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import logo from "../assets/Servify_Black_Logo.png";
+import logo from "../assets/Servify_Black_logo.png";
 import { Link } from "react-router-dom";
 
 const Footer = () => {

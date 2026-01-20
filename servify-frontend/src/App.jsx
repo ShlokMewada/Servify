@@ -23,7 +23,7 @@ import useService from "./hooks/useService";
 import PageNotFound from "./components/PageNotFound";
 import LoadingScreen from "./components/LoadingScreen";
 import EmployeeDashboard from "./components/EmployeeDashboard";
-import PrivacyPolicy from "./components/PrivacyPolicy";
+import TermsAndPrivacy from "./components/TermsAndPrivacy";
 import TermsAndConditions from "./components/TermsAndConditions";
 import OrderHistory from "./components/OrderHistory";
 import EmployeeProfile from "./components/EmployeeProfile";
@@ -143,7 +143,7 @@ const App = () => {
         },
         {
           path: "/privacypolicy",
-          element: <PrivacyPolicy />,
+          element: <TermsAndPrivacy />,
         },
         {
           path: "/terms&conditions",

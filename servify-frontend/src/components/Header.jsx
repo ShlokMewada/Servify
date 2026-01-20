@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/Servify_Black_Logo.png";
+import logo from "../assets/Servify_Black_logo.png";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { viewService } from "../utils/serviceSlice";
@@ -28,13 +28,21 @@ const Header = () => {
     Array.from(onlyServices)?.sort((a, b) => a.name.localeCompare(b.name)); // to sort the service data for efficient searching.
 
   const searchService = (e) => {
-    setSearch(e.target.value);
+    const query = e.target.value;
+    setSearch(query);
+
+    if (!sortedOnlyServices || query.trim() === "") {
+      setSearchResult([]);
+      return;
+    }
+
+    const q = query.trim().toLowerCase();
     setSearchResult(
-      sortedOnlyServices.filter((service) =>
-        service.name.trim().toLowerCase().includes(search.trim().toLowerCase())
+      sortedOnlyServices.filter(
+        (service) => service.name && service.name.trim().toLowerCase().includes(q)
       )
     );
-  };
+  }; 
 
   const handleLogOut = () => {
     localStorage.removeItem("accessToken");
@@ -46,6 +54,8 @@ const Header = () => {
 
   const goToServiceDetails = (resultService) => {
     dispatch(viewService(resultService));
+    setSearch("");
+    setSearchResult([]);
     navigate("/servicedetails");
   };
 
@@ -108,9 +118,11 @@ const Header = () => {
         </ul>
         {user === false && (
           <div>
-            <button className="cursor-pointer py-2 px-4 border border-transparent rounded-md shadow-sm text-md font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400">
-              <Link to="/orderhistory">Order History</Link>
-            </button>
+            <Link to="/orderhistory">
+              <button className="cursor-pointer py-2 px-4 border border-transparent rounded-md shadow-sm text-md font-medium text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400">
+                Order History
+              </button>
+            </Link>
           </div>
         )}
         {user === null ? (

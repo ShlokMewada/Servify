@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import logo from "../assets/Servify_Black_Logo.png";
+import logo from "../assets/Servify_Black_logo.png";
 
 const LoadingScreen = ({ isLoading }) => {
   if (!isLoading) return null;

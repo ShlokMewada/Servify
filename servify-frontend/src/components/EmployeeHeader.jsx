@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/Servify_Black_Logo.png";
+import logo from "../assets/Servify_Black_logo.png";
 import { useDispatch } from "react-redux";
 import { removeUser, removeUserProfile } from "../utils/userSlice";
 import toast from "react-hot-toast";
