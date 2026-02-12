@@ -22,7 +22,7 @@ const OrderHistory = () => {
 
   const handleSubmitReview = async (service, user) => {
     await axiosInstance
-      .post("http://localhost:8000/reviews/", {
+      .post("https://servify-backend-bvwf.onrender.com/reviews/", {
         service: service,
         user: user,
         comment: comment,

@@ -11,7 +11,7 @@ const useOrderHistory = () => {
 
   const getOrderHistory = async () => {
     await axiosInstance
-      .get("http://localhost:8000/order-history/")
+      .get("https://servify-backend-bvwf.onrender.com/order-history/")
       .then((response) => {
         dispatch(addOrderHistory(response.data));
         console.log(response.data);

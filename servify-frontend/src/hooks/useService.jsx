@@ -10,7 +10,7 @@ const useService = () => {
 
   const getService = async () => {
     await axiosInstance
-      .get("http://localhost:8000/services/")
+      .get("https://servify-backend-bvwf.onrender.com/services/")
       .then((response) => {
         dispatch(addOnlyServices(response.data));
         console.log(response.data);

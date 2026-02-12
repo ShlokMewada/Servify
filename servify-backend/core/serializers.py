@@ -128,7 +128,7 @@ class PaymentSerializers(serializers.ModelSerializer):
         model=Payment
         fields=['user','order_id',' payment_id','signature','amount','currency',' status','created_at']
 
-# class CouponSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model=Coupon
-#         fields=['code','discount','active']
+class CouponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Coupon
+        fields = ['code', 'discount', 'active']

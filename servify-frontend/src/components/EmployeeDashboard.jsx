@@ -19,7 +19,7 @@ const EmployeeDashboard = () => {
 
   const handleAccept = async (id) => {
     await axiosInstance
-      .post(`http://localhost:8000/employee/accept-order/${id}/`)
+      .post(`https://servify-backend-bvwf.onrender.com/employee/accept-order/${id}/`)
       .then((response) => {
         console.log(response.data);
         setRequestStatus("confirmed");
@@ -34,7 +34,7 @@ const EmployeeDashboard = () => {
 
   const handleReject = async (id) => {
     await axiosInstance
-      .post(`http://localhost:8000/employee/reject-order/${id}/`)
+      .post(`https://servify-backend-bvwf.onrender.com/employee/reject-order/${id}/`)
       .then((response) => {
         console.log(response.data);
         setRequestStatus("rejected");
@@ -49,7 +49,7 @@ const EmployeeDashboard = () => {
 
   const handleComplete = async (id) => {
     await axiosInstance
-      .post(`http://localhost:8000/employee/mark-completed/${id}/`)
+      .post(`https://servify-backend-bvwf.onrender.com/employee/mark-completed/${id}/`)
       .then((response) => {
         console.log(response.data);
         setRequestStatus("completed");

@@ -16,6 +16,7 @@ from django.db.models import Min
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from razorpay import Client
+
 User = get_user_model()
 
 
@@ -29,7 +30,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         return UserProfile.objects.get(user__id=user_id)
 
 class ReviewViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]  # You might want to use `IsAuthenticated` if only logged-in users can leave reviews
+    permission_classes = [AllowAny]  
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
@@ -253,8 +254,8 @@ class PlaceOrderView(APIView):
             except KeyError:
                 return Response({'error': 'Invalid service data format'}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(BookingSerializer(created_bookings, many=True).data, status=status.HTTP_201_CREATED)
-
+            return Response(BookingSerializer(created_bookings, many=True).data, status=status.HTTP_201_CREATED)
+    
 
 class EmployeeDashboardView(APIView):
     permission_classes = [IsAuthenticated]
@@ -427,26 +428,26 @@ class VerifyPaymentView(APIView):
 
     def post(self, request, *args, **kwargs):
         try:
-            # Get payment ID and order ID from the frontend
+         
             razorpay_payment_id = request.data.get('razorpay_payment_id')
             razorpay_order_id = request.data.get('razorpay_order_id')
 
             if not razorpay_payment_id or not razorpay_order_id:
                 return Response({"error": "Payment ID and Order ID are required."}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Verify the payment with Razorpay
+            
             try:
-                client.payment.fetch(razorpay_payment_id)  # Fetch the payment details
+                client.payment.fetch(razorpay_payment_id)  
             except razorpay.errors.BadRequestError:
                 return Response({"error": "Invalid payment ID."}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Fetch the corresponding Payment record
+          
             try:
                 payment = Payment.objects.get(order_id=razorpay_order_id, user=request.user)
             except Payment.DoesNotExist:
                 return Response({"error": "Order not found."}, status=status.HTTP_404_NOT_FOUND)
 
-            # Update payment status if verified successfully
+           
             payment.status = 'Paid'
             payment.save()
 
@@ -455,22 +456,50 @@ class VerifyPaymentView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-# class ApplyCoupon(APIView):
-#     def post(self,request):
-#         code=request.data.get('code')
-#         totalprice=request.data.get('totalPriceWithGST')
-#         if totalprice<100:
-#             return Response({"error":"Coupons Cannot Applied for Price less than 100"})
-#         try:
-#             coupon=Coupon.objects.get(code=code,active=True)
-#         except Coupon.DoesNotExist:
-#             return Response({"error":"Invalid Coupon"})
-#         discount=coupon.discount
-#         discount_amount=totalprice*(discount/100)
-#         totalprice=totalprice-discount_amount
-#         if totalprice<200:
-#             return Response({"error":"Coupon Not Valid"})
-#         return Response({"message":"Coupon Applied Successfully","discount":discount,'discounted_price':totalprice})
+
+class CouponListView(APIView):
+    permission_classes = [AllowAny] 
+
+    def get(self, request):
+        coupons = Coupon.objects.filter(active=True)
+        serializer = CouponSerializer(coupons, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class ApplyCoupon(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        code = request.data.get('code')
+        try:
+           
+            original_price = float(request.data.get('totalPriceWithGST', 0))
+        except (ValueError, TypeError):
+            return Response({"error": "Invalid price format"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if original_price < 100:
+            return Response({"error": "Minimum order value of ₹100 required for coupons"})
+
+        try:
+            coupon = Coupon.objects.get(code=code, active=True)
+        except Coupon.DoesNotExist:
+            return Response({"error": "Invalid or Expired Coupon"}, status=status.HTTP_404_NOT_FOUND)
+
+       
+        discount_percentage = float(coupon.discount)
+        discount_amount = original_price * (discount_percentage / 100)
+        
+
+        final_price = original_price - discount_amount
+        
+        if final_price < 0: final_price = 0
+
+        return Response({
+            "message": "Coupon Applied",
+            "code": coupon.code,
+            "discount_percentage": discount_percentage,
+            "discount_amount": round(discount_amount, 2),
+            "new_total_price": round(final_price, 2)
+        }, status=status.HTTP_200_OK)
 
 class RejectOrderView(APIView):
     permission_classes = [IsAuthenticated]

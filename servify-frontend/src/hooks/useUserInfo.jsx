@@ -9,7 +9,7 @@ const useUserInfo = () => {
     console.log(user_id && JSON.parse(user_id))
   const getUserInfo = async () => {
     await axiosInstance
-      .get(`http://localhost:8000/users/${user_id && JSON.parse(user_id)}/`)
+      .get(`https://servify-backend-bvwf.onrender.com/users/${user_id && JSON.parse(user_id)}/`)
       .then((response) => {
         dispatch(addUserProfile(response.data));
         console.log(response.data);

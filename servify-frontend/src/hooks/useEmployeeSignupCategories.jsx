@@ -12,7 +12,7 @@ const useEmployeeSignupCategories = () => {
 
   const getEmployeeSignupCategories = async () => {
     await axiosInstance
-      .get("http://localhost:8000/list-service-categories/")
+      .get("https://servify-backend-bvwf.onrender.com/list-service-categories/")
       .then((response) => {
         dispatch(addEmployeeSignupCategories(response.data));
         console.log(response.data);

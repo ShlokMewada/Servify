@@ -10,7 +10,7 @@ const useServiceCategory = () => {
 
   const getServiceCategory = async () => {
     await axiosInstance
-      .get("http://localhost:8000/service-categories/")
+      .get("https://servify-backend-bvwf.onrender.com/service-categories/")
       .then((response) => {
         dispatch(addServices(response.data));
         console.log(response.data);
