@@ -26,6 +26,5 @@ urlpatterns = [
     # path('webhook/',RazorpayWebhook.as_view(),name='webhook'),
     path('verifypayment/',VerifyPaymentView.as_view(),name='verifypayment'),
     # path('apply-coupon/',ApplyCoupon.as_view(),name='apply-coupon'),
-    path('chat/', gemini_chat_view, name='gemini_chat'),
     path('', include(router.urls)),
 ]
