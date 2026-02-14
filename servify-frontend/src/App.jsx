@@ -28,6 +28,7 @@ import TermsAndConditions from "./components/TermsAndConditions";
 import OrderHistory from "./components/OrderHistory";
 import EmployeeProfile from "./components/EmployeeProfile";
 import ScrollToTop from "./components/ScrollToTop";
+import Chatbot from "./components/Chatbot";
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -45,6 +46,7 @@ const App = () => {
       element: (
         <>
           <ScrollToTop />
+          <Chatbot />
           <Outlet />
         </>
       ),

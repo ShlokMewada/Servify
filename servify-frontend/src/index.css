@@ -8,6 +8,22 @@ body {
   font-family: "Poppins",  sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent; /* Removes the blue box when clicking on mobile */
+  overflow-x: hidden;
+}
+
+/* Make sure images never overflow their parents */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 @layer utilities {
   .scrollbar-thin {
     scrollbar-width: thin;
