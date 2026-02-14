@@ -10,7 +10,7 @@ const useEmployeeInfo = () => {
   const getEmployeeInfo = async () => {
     await axiosInstance
       .get(
-        `http://localhost:8000/employees/${employee_id && JSON.parse(employee_id)}/`
+        `https://servify-backend-bvwf.onrender.com/employees/${employee_id && JSON.parse(employee_id)}/`
       )
       .then((response) => {
         dispatch(addEmployeeProfile(response.data));

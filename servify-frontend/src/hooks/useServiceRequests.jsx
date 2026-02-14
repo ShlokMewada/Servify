@@ -12,7 +12,7 @@
 
 //   const getServiceRequests = async () => {
 //     await axiosInstance
-//       .get("http://localhost:8000/employee/dashboard/")
+//       .get("https://servify-backend-bvwf.onrender.com/employee/dashboard/")
 //       .then((response) => {
 //         dispatch(addServiceRequests(response.data));
 //         console.log(response.data);
@@ -46,7 +46,7 @@ const useServiceRequests = () => {
 
   const getServiceRequests = async () => {
     await axiosInstance
-      .get("http://localhost:8000/employee/dashboard/")
+      .get("https://servify-backend-bvwf.onrender.com/employee/dashboard/")
       .then((response) => {
         dispatch(addServiceRequests(response.data));
         console.log(response.data);

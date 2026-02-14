@@ -47,6 +47,6 @@ class ReviewAdmin(admin.ModelAdmin):
 class PaymentAdmin(admin.ModelAdmin):
     list_display=('user','amount')
 
-# @admin.register(Coupon)
-# class CouponAdmin(admin.ModelAdmin):
-#     list_display=('code','discount')
+@admin.register(Coupon)
+class CouponAdmin(admin.ModelAdmin):
+    list_display = ('code', 'discount', 'active')

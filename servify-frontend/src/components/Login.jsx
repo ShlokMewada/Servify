@@ -44,7 +44,7 @@ const Login = ({ isEmployee }) => {
     formData.append("password", password.current.value);
 
     await axiosUnauthenticatedInstance
-      .post("http://localhost:8000/login/", formData)
+      .post("https://servify-backend-bvwf.onrender.com/login/", formData)
       .then((response) => {
         localStorage.setItem("accessToken", response.data.access);
         localStorage.setItem("refreshToken", response.data.refresh);
