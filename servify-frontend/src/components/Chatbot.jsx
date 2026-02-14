@@ -29,9 +29,12 @@ const Chatbot = () => {
     setInput("");
 
     try {
-      const response = await axiosInstance.post("http://localhost:8000/chat/", {
-        message: input,
-      });
+      const response = await axiosInstance.post(
+        "https://servify-backend-bvwf.onrender.com/chat/",
+        {
+          message: input,
+        },
+      );
 
       const botRawText = response.data.text;
       const jsonMatch = botRawText.match(/\{.*\}/s);

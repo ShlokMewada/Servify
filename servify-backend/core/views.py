@@ -16,6 +16,10 @@ from django.db.models import Min
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from razorpay import Client
+import google.generativeai as genai
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 User = get_user_model()
 
@@ -552,3 +556,87 @@ class UserOrderHistoryView(APIView):
         
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+
+# 2. Define the Navigation Tool (Python version)
+def open_service(serviceId: int):
+    """Navigates to the details page of a specific service."""
+    # This function body is just a placeholder; Gemini only needs the definition
+    pass
+
+@csrf_exempt
+def gemini_chat_view(request):
+    if request.method == "POST":
+        try:
+            # 1. Parse Request
+            data = json.loads(request.body)
+            user_message = data.get("message")
+            # Convert frontend history format to Gemini format if needed, 
+            # for now, we'll keep it simple for stability.
+            
+            # 2. System Instructions (Card-focused)
+            system_prompt = """
+            You are the "Servify AI Assistant". Your goal is to help users find home services.
+
+            CORE LOGIC:
+            - If a user needs a service, identify the correct Service ID(s) from the catalog.
+            - Provide a helpful text response followed by a JSON object.
+            - The JSON MUST use the key "display_cards" with an array of IDs.
+
+            CATALOG:
+            [
+              { "id": 43, "name": "Back pain relief massage" },
+              { "id": 22, "name": "Move-in Kitchen cleaning" },
+              { "id": 42, "name": "Leg pain relief massage" },
+              { "id": 78, "name": "Door Lock Repair" },
+              { "id": 27, "name": "Cushion Cleaning" },
+              { "id": 40, "name": "Hectic day care massage" },
+              { "id": 35, "name": "Head Massage" },
+              { "id": 31, "name": "Beard Trimming and Styling" },
+              { "id": 15, "name": "Basic Cleaning" },
+              { "id": 3, "name": "AC Service lite" },
+              { "id": 7, "name": "AC uninstall" },
+              { "id": 1, "name": "Power Saver AC Service" },
+              { "id": 2, "name": "Anti Rust deep Clean Service" },
+              { "id": 57, "name": "Wash basin installation" },
+              { "id": 70, "name": "Wooden Shelf installation" },
+              { "id": 53, "name": "3-Phase changeover switch installation" },
+              { "id": 65, "name": "Bed legs/headboard repair" },
+              { "id": 68, "name": "Major Door repair" },
+              { "id": 4, "name": "AC Repair (Split/Window)" },
+              { "id": 5, "name": "Gas leak fix & refill" },
+              { "id": 6, "name": "AC install" },
+              { "id": 14, "name": "Basic/Wall Mounted Chimmey" },
+              { "id": 9, "name": "Single Door CheckUp" },
+              { "id": 79, "name": "Fan Repair" },
+              { "id": 11, "name": "Side-by-Side door refrigerator" },
+              { "id": 13, "name": "Water Purifier Service Check-up" },
+              { "id": 16, "name": "Deep Cleaning" }
+            ]
+
+            RESPONSE FORMAT EXAMPLE:
+            "I can help with that! Here is our specialized service: { \"display_cards\": [43] }"
+            """
+
+            # 3. Initialize Model (Tools removed for card-only logic)
+            model = genai.GenerativeModel(
+                model_name="gemini-flash-latest",
+                system_instruction=system_prompt,
+            )
+
+            # 4. Generate Response
+            chat = model.start_chat(history=[])
+            response = chat.send_message(user_message)
+
+            # 5. Return Clean JSON
+            return JsonResponse({"text": response.text})
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            print(f"ERROR IN CHAT VIEW: {str(e)}")
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid method"}, status=405)
